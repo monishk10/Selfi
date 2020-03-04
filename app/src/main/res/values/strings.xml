@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Selfi</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_sign_out">Sign Out</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Fullname</string>
+
+    <string name="quote_register">Haven\'t registered already? Register</string>
+    <string name="quote_login">Already registered? Login</string>
+
+    <string name="default_greeting">Hi</string>
+
+    <string name="btn_scan">Scan</string>
+    <string name="btn_health">Health</string>
+
+    <!--  DeviceListActivity -->
+    <string name="scanning">scanning for devices...</string>
+    <string name="select_device">select a device to connect</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="none_found">No devices found</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="button_scan">Scan for devices</string>
+
+</resources>

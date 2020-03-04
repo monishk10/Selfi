@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    >
+
+    <TextView
+        android:id="@+id/bluetooth_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:fontFamily="@font/gotham"
+        android:text="Please pair the device first from bluetooth menu"
+        android:textSize="14sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_paired_devices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title_paired_devices"
+                android:textColor="@color/titles"
+                android:textSize="@dimen/title_text_size"
+                android:paddingLeft="@dimen/title_padding"
+                android:paddingTop="@dimen/title_padding"
+                android:paddingBottom="@dimen/title_padding"
+                android:visibility="gone" />
+
+            <ListView
+                android:id="@+id/paired_devices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_view_design"
+                android:divider="@color/listview_divider"
+                android:dividerHeight="2dp"
+                android:paddingLeft="@dimen/listview_padding"
+                android:paddingRight="@dimen/listview_padding"
+                android:stackFromBottom="true">
+
+            </ListView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
