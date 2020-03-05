@@ -6,7 +6,7 @@
     <dimen name="button_radius_large">30dp</dimen>
     <dimen name="textbox_icon_padding">5dp</dimen>
     <dimen name="credentials_bottom_margin">15dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">20dp</dimen>
     <dimen name="logo_w_h">100dp</dimen>
     <dimen name="greeting_text_size">18sp</dimen>
     <dimen name="title_text_size">16sp</dimen>

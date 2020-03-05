@@ -11,5 +11,6 @@
     <color name="btn_pressed">#C01855</color>
     <color name="btn_text_color">#EEEEEE</color>
 
+    <color name="fab_color">#FF8A80</color>
     <color name="white">#ffffff</color>
 </resources>

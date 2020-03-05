@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,14 +24,14 @@ public class BluetoothDataActivity extends AppCompatActivity{
 
     private static final UUID BLUETOOTH_SPP = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-    TextView infoTextView, dataTextView;
-    Button stopBtn, disconnectBtn;
-    String deviceAddress, deviceName;
+    private TextView infoTextView, dataTextView;
+    private FloatingActionButton disconnectBtn;
+    private String deviceAddress, deviceName;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothSocket socket;
     private BluetoothDevice device;
-    boolean isRead = true;
-    boolean isConnected = false;
+    private boolean isConnected = false;
+    private boolean D = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,80 +44,84 @@ public class BluetoothDataActivity extends AppCompatActivity{
         // Extract Values
         infoTextView = findViewById(R.id.bt_info);
         dataTextView = findViewById(R.id.dataTextView);
-        stopBtn = findViewById(R.id.stop);
         disconnectBtn = findViewById(R.id.disconnect);
 
-        dataTextView.setMovementMethod(new ScrollingMovementMethod());
-        //Extract the data…
+        //Extract the data from the previous activity…
         deviceAddress = bundle.getString("address");
         deviceName = bundle.getString("name");
 
-        infoTextView.setText("Connecting...");
+        dataTextView.setMovementMethod(new ScrollingMovementMethod());
 
-        Log.d("BTT", deviceName);
-        Log.d("BTT", deviceAddress);
-
-
-        final Runnable bluetoothSocket = new Runnable() {
-            public void run() {
-                setupBT();
-                socketConnect();
-                receiveData();
-            }
-        };
-
-        Thread bt = new Thread(bluetoothSocket);
-        bt.start();
-
-        stopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isRead ^= true;
-                display("Read stopped", true);
-            }
-        });
+        startConnection();
 
         disconnectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                disconnect();
+                if (isConnected)
+                    disconnect();
+                else
+                    startConnection();
             }
         });
 
+        if(D) {
+            Log.d("BTT", "Device name: " + deviceName);
+            Log.d("BTT", "Device address: " + deviceAddress);
+        }
+
+    }
+
+    public void startConnection() {
+        infoTextView.setText("Connecting to " + deviceName);
+        disconnectBtn.setImageResource(R.drawable.ic_bluetooth_disabled_black_24dp);
+        dataTextView.setText("");
+        // Create a new thread to run the bluetooth socket
+        final Runnable bluetoothSocket = new Runnable() {
+            public void run() {
+                setupBT();
+                while(!isConnected)
+                    socketConnect();
+                receiveData();
+            }
+        };
+        Thread btThread = new Thread(bluetoothSocket);
+        btThread.start();
     }
 
     public void setupBT(){
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         device = bluetoothAdapter.getRemoteDevice(deviceAddress);
-
     }
 
     public boolean socketConnect() {
         try {
             socket = device.createRfcommSocketToServiceRecord(BLUETOOTH_SPP);
         } catch (Exception e) {
-            Log.d("BTT","Error creating socket");
+            if(D) Log.d("BTT","Error creating socket");
             isConnected = false;
         }
 
         try {
             socket.connect();
             isConnected = true;
-            Log.d("BTT","Connected");
+            if(D) Log.d("BTT","Connected");
         } catch (IOException e) {
-            Log.d("BTT",e.getMessage());
+            if(D) Log.d("BTT",e.getMessage());
             try {
-                Log.d("BTT","trying fallback...");
+                if(D) Log.d("BTT","trying fallback...");
 
-                socket =(BluetoothSocket) device.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(device,1);
+                socket =(BluetoothSocket) device.getClass().getMethod(
+                        "createRfcommSocket",
+                        new Class[] {int.class}).invoke(device,1
+                );
                 socket.connect();
                 isConnected=true;
 
-                Log.d("BTT","Connected");
+                if(D) Log.d("BTT","Connected");
             }
             catch (Exception e2) {
                 isConnected = false;
-                Log.d("BTT", "Couldn't establish Bluetooth connection!");
+                if(D) Log.d("BTT", "Couldn't establish Bluetooth connection!");
             }
         } finally {
             display(" ", true);
@@ -123,36 +129,19 @@ public class BluetoothDataActivity extends AppCompatActivity{
         return true;
     }
 
-    public void display(final String s, final boolean isSystemMessage){
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(isSystemMessage) {
-                    if (isConnected)
-                        infoTextView.setText("Connected");
-                    else
-                        infoTextView.setText("Couldn't connect");
-                } else {
-                    dataTextView.append(s + "\n");
-                }
-            }
-        });
-    }
 
     public void receiveData() {
         try {
             InputStream in = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             //noinspection InfiniteLoopStatement
-            while (true) {
-                while (isRead) {
-                    String data = reader.readLine();
-                    Log.d("BTT", data);
-                    display(data, false);
-                }
+            while (isConnected) {
+                String data = reader.readLine();
+                if(D) Log.d("BTT", data);
+                display(data, false);
             }
         } catch (Exception e) {
-            Log.d("BTT", "Data Error: " + e.getMessage());
+            if(D) Log.d("BTT", "Data Error: " + e.getMessage());
             try {
                 socket.close();
             } catch (Exception ignored) {
@@ -161,15 +150,39 @@ public class BluetoothDataActivity extends AppCompatActivity{
         }
     }
 
+    public void display(final String s, final boolean isSystemMessage){
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(isSystemMessage) {
+                    if (isConnected)
+                        infoTextView.setText("Connected - " + deviceName);
+                    else
+                        infoTextView.setText("Couldn't connect. Retrying..");
+                } else {
+                    dataTextView.append(s + "\n");
+                }
+            }
+        });
+    }
+
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         disconnect();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        disconnect();
+        super.onBackPressed();
     }
 
     public void disconnect() {
         // connected = false; // run loop will reset connected
         infoTextView.setText("Disconnected");
+        disconnectBtn.setImageResource(R.drawable.ic_bluetooth_connected_black_24dp);
+        isConnected = false;
         if(socket != null) {
             try {
                 socket.close();
@@ -179,7 +192,4 @@ public class BluetoothDataActivity extends AppCompatActivity{
         }
 
     }
-
-
-
 }
