@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@drawable/app_bg_gradient_dark"
-    android:id="@+id/l_constraint_layout"
-    tools:context=".LoginActivity">
+    tools:context=".ForgotActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,12 +19,11 @@
         app:layout_constraintVertical_bias="1.0">
 
         <TextView
-            android:id="@+id/l_register_btn"
+            android:id="@+id/f_login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="120dp"
             android:fontFamily="@font/calibri"
-            android:text="@string/quote_register"
+            android:text="@string/quote_login"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,9 +67,8 @@
         app:layout_constraintVertical_bias="1.0">
 
     </FrameLayout>
-
     <LinearLayout
-        android:id="@+id/l_layout"
+        android:id="@+id/f_layout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:gravity="center"
@@ -87,11 +84,13 @@
 
 
         <ImageView
-            android:id="@+id/l_logo"
+            android:id="@+id/f_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/logo_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
             app:srcCompat="@drawable/ic_logo" />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,17 +98,17 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/l_email_icon"
+                android:id="@+id/f_email_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="16dp"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_email" />
 
             <EditText
-                android:id="@+id/l_email"
+                android:id="@+id/f_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/credentials_margin"
@@ -123,73 +122,17 @@
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/l_password_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_lock" />
-
-            <EditText
-                android:id="@+id/l_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/credentials_margin"
-                android:layout_marginBottom="@dimen/credentials_margin"
-                android:layout_weight="10"
-                android:background="@drawable/textbox"
-                android:hint="@string/hint_password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-
         <Button
-            android:id="@+id/l_login_btn"
+            android:id="@+id/f_forgot_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/rounded_color_button"
-            android:text="@string/btn_login"
+            android:text="@string/btn_forgot"
             android:textColor="@color/btn_text_color"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/l_forgot_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/credentials_margin"
-            android:fontFamily="@font/calibri"
-            android:text="@string/quote_forgot"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/l_progress_bar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

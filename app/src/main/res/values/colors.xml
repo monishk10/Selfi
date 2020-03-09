@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E91E63</color>
-    <color name="colorPrimaryDark">#000</color>
-    <color name="colorAccent">#FF80AB</color>
+    <color name="colorPrimary">#B388FF</color>
+    <color name="colorPrimaryDark">#13171F</color>
+    <color name="colorAccent">#B388FF</color>
+    <color name="hint_color">#77EEEEEE</color>
 
-    <color name="app_bg">#EEEEEE</color>
+
+    <color name="app_bg_start">#13171F</color>
+    <color name="app_bg_end">#252F35</color>
     <color name="titles">#1D1D1D</color>
-    <color name="listview_divider">#E6E6E6</color>
-    <color name="btn">#E91E63</color>
-    <color name="btn_pressed">#C01855</color>
-    <color name="btn_text_color">#EEEEEE</color>
-
-    <color name="fab_color">#FF8A80</color>
+    <color name="listview_divider">#43CCCCCC</color>
+    <color name="listview_text">#CCCCCC</color>
+    <color name="white_btn">#FFFFFF</color>
+    <color name="white_btn_pressed">#B9B9B9</color>
+    <color name="btn_text_color">#252F35</color>
+    
+    <color name="colorGradientStart">#B388FF</color>
+    <color name="colorGradientMid">#82B1FF</color>
+    <color name="colorGradientEnd">#84FFFF</color>
+    <color name="color_fab">#B388FF</color>
+    <color name="color_fab_pressed">#82B1FF</color>
     <color name="white">#ffffff</color>
 </resources>

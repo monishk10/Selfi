@@ -3,11 +3,12 @@ package com.matthewcampisi.selfi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class BluetoothDataActivity extends AppCompatActivity{
@@ -25,13 +27,16 @@ public class BluetoothDataActivity extends AppCompatActivity{
     private static final UUID BLUETOOTH_SPP = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private TextView infoTextView, dataTextView;
+    private ImageView outputImage;
     private FloatingActionButton disconnectBtn;
     private String deviceAddress, deviceName;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothSocket socket;
     private BluetoothDevice device;
+    private Bitmap bitmap;
     private boolean isConnected = false;
     private boolean D = false;
+    private  int[] imageArr = new int[80];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +47,19 @@ public class BluetoothDataActivity extends AppCompatActivity{
         Bundle bundle = getIntent().getExtras();
 
         // Extract Values
-        infoTextView = findViewById(R.id.bt_info);
-        dataTextView = findViewById(R.id.dataTextView);
-        disconnectBtn = findViewById(R.id.disconnect);
+        infoTextView = findViewById(R.id.bt_data_info);
+        dataTextView = findViewById(R.id.bt_data_text);
+        disconnectBtn = findViewById(R.id.bt_data_disconnect);
+        outputImage = findViewById(R.id.bt_data_image);
 
         //Extract the data from the previous activity…
         deviceAddress = bundle.getString("address");
         deviceName = bundle.getString("name");
 
         dataTextView.setMovementMethod(new ScrollingMovementMethod());
+        Arrays.fill(imageArr, 0);
+        bitmap = Bitmap.createBitmap(imageArr, 10, 8, Bitmap.Config.RGB_565);
+        outputImage.setImageBitmap(bitmap);
 
         startConnection();
 
@@ -73,7 +82,7 @@ public class BluetoothDataActivity extends AppCompatActivity{
 
     public void startConnection() {
         infoTextView.setText("Connecting to " + deviceName);
-        disconnectBtn.setImageResource(R.drawable.ic_bluetooth_disabled_black_24dp);
+        disconnectBtn.setImageResource(R.drawable.ic_bluetooth_disabled);
         dataTextView.setText("");
         // Create a new thread to run the bluetooth socket
         final Runnable bluetoothSocket = new Runnable() {
@@ -134,11 +143,20 @@ public class BluetoothDataActivity extends AppCompatActivity{
         try {
             InputStream in = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            Arrays.fill(imageArr, 0);
+
             //noinspection InfiniteLoopStatement
             while (isConnected) {
                 String data = reader.readLine();
+                if(data.substring(0,2).equals("00")) {
+                    Log.d("data", Arrays.toString(imageArr));
+                    bitmap = Bitmap.createBitmap(imageArr, 10, 8, Bitmap.Config.RGB_565);
+                    outputImage.setImageBitmap(bitmap);
+                    Arrays.fill(imageArr, 0);
+                }
+                imageArr[Integer.parseInt(data.substring(0,2))] = Integer.parseInt(data.substring(3));
                 if(D) Log.d("BTT", data);
-                display(data, false);
+                //display(data, false);
             }
         } catch (Exception e) {
             if(D) Log.d("BTT", "Data Error: " + e.getMessage());
@@ -181,7 +199,7 @@ public class BluetoothDataActivity extends AppCompatActivity{
     public void disconnect() {
         // connected = false; // run loop will reset connected
         infoTextView.setText("Disconnected");
-        disconnectBtn.setImageResource(R.drawable.ic_bluetooth_connected_black_24dp);
+        disconnectBtn.setImageResource(R.drawable.ic_bluetooth_connected);
         isConnected = false;
         if(socket != null) {
             try {

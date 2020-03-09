@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.Set;
 
@@ -23,12 +23,15 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
     // Debugging
     private static final String TAG = "DeviceListActivity";
     private static final boolean D = true;
+    private ListView pairedListView;
 
 
     private final int REQUEST_ENABLE_BT = 2;
     // Member fields
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
+    private SwipeRefreshLayout swipeContainer;
+
 
 
     @Override
@@ -47,7 +50,7 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
 
 
         // Find and set up the ListView for paired devices
-        ListView pairedListView = findViewById(R.id.paired_devices);
+        pairedListView = findViewById(R.id.bt_scan_paired_devices);
         pairedListView.setAdapter(mPairedDevicesArrayAdapter);
         pairedListView.setOnItemClickListener(mDeviceClickListener);
 
@@ -55,17 +58,31 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        // Lookup the swipe container view
+        swipeContainer = findViewById(R.id.bt_scan_swipe_container);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pairedDevices();
+            }
+        });
+
         if (!mBtAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
+        pairedDevices();
+    }
+
+    public void pairedDevices() {
         // Get a set of currently paired devices
         Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
 
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
-            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
+            findViewById(R.id.bt_scan_info).setVisibility(View.VISIBLE);
             for (BluetoothDevice device : pairedDevices) {
                 mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
@@ -74,9 +91,9 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
             String noDevices = getResources().getText(R.string.none_paired).toString();
             mPairedDevicesArrayAdapter.add(noDevices);
         }
+
+        swipeContainer.setRefreshing(false);
     }
-
-
 
     // The on-click listener for all devices in the ListViews
     private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {

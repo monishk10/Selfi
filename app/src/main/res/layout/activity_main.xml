@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
+    android:background="@drawable/app_bg_gradient_dark"
     tools:context=".MainActivity" >
 
     <LinearLayout
-        android:id="@+id/mainLinearLayout"
+        android:id="@+id/main_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="100dp"
@@ -20,17 +20,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/mainLogoImageView"
+            android:id="@+id/main_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="50dp"
             android:paddingBottom="50dp"
-            app:srcCompat="@mipmap/ic_launcher_foreground" />
+            app:srcCompat="@drawable/ic_logo" />
+
 
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/mainProgressBar"
+        android:id="@+id/main_progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,5 +40,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainLinearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/main_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/app_bg"
+    android:background="@drawable/app_bg_gradient_dark"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -19,19 +19,20 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/bt_info"
+                android:id="@+id/bt_data_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:maxLines="1"
-                android:paddingLeft="@dimen/activity_horizontal_margin" />
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textColor="@color/white"/>
 
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/dataTextView"
+            android:id="@+id/bt_data_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimaryDark"
@@ -39,18 +40,25 @@
             android:gravity="bottom"
             android:padding="@dimen/fab_margin"
             android:scrollbars="vertical"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/bt_data_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"/>
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/disconnect"
+        android:id="@+id/bt_data_disconnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/rounded_fab_button"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_bluetooth_disabled_black_24dp" />
+        android:src="@drawable/ic_bluetooth_disabled" />
 
 </FrameLayout>

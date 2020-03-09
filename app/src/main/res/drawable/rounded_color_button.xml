@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/btn_pressed">
+    android:color="@color/colorGradientMid">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
-            <solid android:color="@color/btn_pressed" />
+            <solid android:color="@color/colorGradientMid" />
             <padding
                 android:left="10dp"
                 android:right="10dp"
@@ -15,7 +15,12 @@
 
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <solid android:color="@color/btn" />
+            <gradient
+                android:type="linear"
+                android:angle="315"
+                android:startColor="@color/colorGradientStart"
+                android:centerColor="@color/colorGradientMid"
+                android:endColor="@color/colorGradientEnd"/>
             <padding
                 android:left="10dp"
                 android:right="10dp"

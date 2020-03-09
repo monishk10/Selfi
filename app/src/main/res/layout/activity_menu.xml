@@ -5,7 +5,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:background="@color/app_bg"
+    android:background="@drawable/app_bg_gradient_dark"
+    android:id="@+id/menu_linear_layout"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,21 +15,23 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/greetings"
+            android:id="@+id/menu_greetings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/gotham"
             android:text="@string/default_greeting"
-            android:textSize="@dimen/greeting_text_size" />
+            android:textSize="@dimen/greeting_text_size"
+            android:textColor="@color/white"/>
+
 
         <Button
-            android:id="@+id/signOut"
+            android:id="@+id/menu_sign_out_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="@drawable/rounded_white_button"
-            android:onClick="signOut"
+            android:background="@drawable/rounded_color_button"
+            android:textColor="@color/btn_text_color"
             android:text="@string/btn_sign_out" />
 
     </LinearLayout>
@@ -41,23 +44,23 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/scanButton"
+            android:id="@+id/menu_scan_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_white_button"
-            android:onClick="scanDevices"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/rounded_color_button"
+            android:textColor="@color/btn_text_color"
             android:text="@string/btn_scan" />
 
         <Button
-            android:id="@+id/healthButton"
+            android:id="@+id/menu_health_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_white_button"
-            android:onClick="openHealth"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/rounded_color_button"
+            android:textColor="@color/btn_text_color"
             android:text="@string/btn_health" />
 
     </LinearLayout>
